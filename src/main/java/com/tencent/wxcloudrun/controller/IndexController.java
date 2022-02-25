@@ -25,10 +25,10 @@ public class IndexController {
      * @return API response html
      */
     @GetMapping
-    public String index(@RequestParam("msgSignature") String msgSignature, @RequestParam("timestamp") String timestamp, @RequestParam("nonce") String nonce, @RequestParam("echostr") String echostr)
+    public String index(@RequestParam("signature") String signature, @RequestParam("timestamp") String timestamp, @RequestParam("nonce") String nonce, @RequestParam("echostr") String echostr)
             throws AesException {
         WXBizMsgCrypt wxBizMsgCrypt = new WXBizMsgCrypt(token, encodingAesKey, appId);
-        return wxBizMsgCrypt.verifyUrl(msgSignature, timestamp, nonce, echostr);
+        return wxBizMsgCrypt.verifyUrl(signature, timestamp, nonce, echostr);
     }
 
 }
