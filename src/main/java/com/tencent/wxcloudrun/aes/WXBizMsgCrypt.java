@@ -14,6 +14,7 @@
 package com.tencent.wxcloudrun.aes;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -21,6 +22,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -38,8 +40,9 @@ import org.apache.commons.codec.binary.Base64;
  * 	<li>如果安装了JDK，将两个jar文件放到%JDK_HOME%\jre\lib\security目录下覆盖原来文件</li>
  * </ol>
  */
+@Slf4j
 public class WXBizMsgCrypt {
-	static Charset CHARSET = Charset.forName("utf-8");
+	static final Charset CHARSET = StandardCharsets.UTF_8;
 	Base64 base64 = new Base64();
 	byte[] aesKey;
 	String token;
@@ -278,6 +281,7 @@ public class WXBizMsgCrypt {
 			throws AesException {
 		String signature = SHA1.getSHA1(token, timeStamp, nonce, echoStr);
 
+		log.info("计算后的signature:{},用于比较的msgSignature:{}", signature, msgSignature);
 		if (!signature.equals(msgSignature)) {
 			throw new AesException(AesException.ValidateSignatureError);
 		}
