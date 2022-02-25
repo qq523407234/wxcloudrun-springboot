@@ -1,6 +1,6 @@
 # 写在最前面：强烈建议先阅读官方教程[Dockerfile最佳实践]（https://docs.docker.com/develop/develop-images/dockerfile_best-practices/）
 # 选择构建用基础镜像（选择原则：在包含所有用到的依赖前提下尽可能提及小）。如需更换，请到[dockerhub官方仓库](https://hub.docker.com/_/java?tab=tags)自行选择后替换。
-FROM maven:3.6.0-jdk-8-slim as build
+FROM gradle:7.3.3-jdk8 as build
 
 # 指定构建过程中的工作目录
 WORKDIR /app
@@ -9,11 +9,10 @@ WORKDIR /app
 COPY src /app/src
 
 # 将pom.xml文件，拷贝到工作目录下
-COPY settings.xml pom.xml /app/
+COPY build.gradle settings.gradle /app/
 
 # 执行代码编译命令
-# 自定义settings.xml, 选用国内镜像源以提高下载速度
-RUN mvn -s /app/settings.xml -f /app/pom.xml clean package
+RUN gradle bootJar
 
 # 选择运行时基础镜像
 FROM alpine:3.13
@@ -28,7 +27,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositorie
 WORKDIR /app
 
 # 将构建产物jar包拷贝到运行时目录中
-COPY --from=build /app/target/springboot-wxcloudrun-1.0.jar .
+COPY --from=build /app/build/libs/springboot-wxcloudrun-1.0.jar .
 
 # 暴露端口
 EXPOSE 80

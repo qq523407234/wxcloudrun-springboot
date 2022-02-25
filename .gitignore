@@ -23,5 +23,7 @@
 hs_err_pid*
 
 .idea/
+.gradle/
 target/
-springboot-cloudbaserun.iml
+build/
+*.iml

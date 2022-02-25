@@ -1,0 +1,83 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "io.freefair.lombok" version "6.4.1"
+    id "com.github.ben-manes.versions" version "0.42.0"
+    id 'java'
+}
+
+group = 'com.tencent'
+version = '1.0'
+//sourceCompatibility = 11
+sourceCompatibility = 8
+
+configurations {
+    implementation {
+        extendsFrom annotationProcessor
+    }
+
+    all*.exclude group: 'junit'
+    all*.exclude group: 'commons-logging'
+    all*.exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+    all*.exclude group: 'com.vaadin.external.google', module: 'android-json'
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+    mavenLocal()
+//    mavenCentral()
+}
+
+List spring = [
+        'org.springframework.boot:spring-boot-starter-web',
+]
+List springtest = [
+        'org.springframework.boot:spring-boot-starter-test'
+]
+List devtools = [
+        'org.springframework.boot:spring-boot-devtools'
+]
+List alibaba = [
+        'com.alibaba:fastjson:latest.release'
+]
+List google = [
+        'com.google.guava:guava:latest.release'
+]
+List apache = [
+        'org.apache.commons:commons-lang3:latest.release'
+]
+List mybatis = [
+        'tk.mybatis:mapper-spring-boot-starter:latest.release',
+        'org.mybatis:mybatis:3.5.9'
+]
+List driver = [
+        'mysql:mysql-connector-java:8.0.28'
+]
+
+List hutool = [
+        'cn.hutool:hutool-core:latest.release'
+]
+
+dependencies {
+    implementation spring,alibaba,google,apache,mybatis,hutool
+
+    runtimeOnly driver
+
+    testImplementation springtest
+
+    developmentOnly devtools
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencyUpdates {
+    checkForGradleUpdate false
+}
