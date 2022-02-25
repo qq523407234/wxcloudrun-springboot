@@ -46,7 +46,8 @@ List google = [
         'com.google.guava:guava:latest.release'
 ]
 List apache = [
-        'org.apache.commons:commons-lang3:latest.release'
+        'org.apache.commons:commons-lang3:latest.release',
+        'commons-codec:commons-codec:latest.release'
 ]
 List mybatis = [
         'tk.mybatis:mapper-spring-boot-starter:latest.release',
