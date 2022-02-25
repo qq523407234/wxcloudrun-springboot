@@ -27,14 +27,17 @@ public class WxController {
     @GetMapping("/verifyUrl")
     public String verifyUrl(@RequestParam("signature") String signature, @RequestParam("timestamp") String timestamp, @RequestParam("nonce") String nonce, @RequestParam("echostr") String echostr)
             throws AesException {
+        log.info("-------------------------");
         log.info("token: {}", token);
         log.info("encodingAesKey: {}", encodingAesKey);
         log.info("appId: {}", appId);
-        WXBizMsgCrypt wxBizMsgCrypt = new WXBizMsgCrypt(token, encodingAesKey, appId);
+        log.info("-------------------------");
         log.info("signature: {}", signature);
         log.info("timestamp: {}", timestamp);
         log.info("nonce: {}", nonce);
         log.info("echostr: {}", echostr);
+        log.info("-------------------------");
+        WXBizMsgCrypt wxBizMsgCrypt = new WXBizMsgCrypt(token, encodingAesKey, appId);
         return wxBizMsgCrypt.verifyUrl(signature, timestamp, nonce, echostr);
     }
 
