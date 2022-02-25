@@ -46,8 +46,7 @@ List google = [
         'com.google.guava:guava:latest.release'
 ]
 List apache = [
-        'org.apache.commons:commons-lang3:3.12.0',
-        'commons-codec:commons-codec:1.15'
+        'org.apache.commons:commons-lang3:3.12.0'
 ]
 List mybatis = [
         'tk.mybatis:mapper-spring-boot-starter:latest.release',
@@ -58,7 +57,8 @@ List driver = [
 ]
 
 List hutool = [
-        'cn.hutool:hutool-core:latest.release'
+        'cn.hutool:hutool-core:latest.release',
+        'cn.hutool:hutool-crypto:latest.release',
 ]
 
 dependencies {

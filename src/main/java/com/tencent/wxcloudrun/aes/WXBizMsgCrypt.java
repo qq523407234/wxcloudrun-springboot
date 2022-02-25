@@ -13,6 +13,7 @@
  */
 package com.tencent.wxcloudrun.aes;
 
+import cn.hutool.core.codec.Base64;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -23,7 +24,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 提供接收和推送给公众平台消息的加解密接口(UTF8编码的字符串).
@@ -43,7 +44,6 @@ import org.apache.commons.codec.binary.Base64;
 @Slf4j
 public class WXBizMsgCrypt {
 	static final Charset CHARSET = StandardCharsets.UTF_8;
-	Base64 base64 = new Base64();
 	byte[] aesKey;
 	String token;
 	String appId;
@@ -63,7 +63,7 @@ public class WXBizMsgCrypt {
 
 		this.token = token;
 		this.appId = appId;
-		aesKey = Base64.decodeBase64(encodingAesKey + "=");
+		aesKey = Base64.decode(encodingAesKey + "=");
 	}
 
 	// 生成4个字节的网络字节序
@@ -136,7 +136,7 @@ public class WXBizMsgCrypt {
 			byte[] encrypted = cipher.doFinal(unencrypted);
 
 			// 使用BASE64对加密后的字符串进行编码
-			String base64Encrypted = base64.encodeToString(encrypted);
+			String base64Encrypted = Base64.encode(encrypted);
 
 			return base64Encrypted;
 		} catch (Exception e) {
@@ -162,7 +162,7 @@ public class WXBizMsgCrypt {
 			cipher.init(Cipher.DECRYPT_MODE, key_spec, iv);
 
 			// 使用BASE64对密文进行解码
-			byte[] encrypted = Base64.decodeBase64(text);
+			byte[] encrypted = Base64.decode(text);
 
 			// 解密
 			original = cipher.doFinal(encrypted);
@@ -279,15 +279,12 @@ public class WXBizMsgCrypt {
 	 */
 	public String verifyUrl(String msgSignature, String timeStamp, String nonce, String echoStr)
 			throws AesException {
-		String signature = SHA1.getSHA1(token, timeStamp, nonce, echoStr);
-
-		log.info("计算后的signature:{},用于比较的msgSignature:{}", signature, msgSignature);
+		String signature = SHA1.getSHA1(token, timeStamp, nonce, StringUtils.EMPTY);
 		if (!signature.equals(msgSignature)) {
 			throw new AesException(AesException.ValidateSignatureError);
 		}
 
-		String result = decrypt(echoStr);
-		return result;
+		return echoStr;
 	}
 
 }
