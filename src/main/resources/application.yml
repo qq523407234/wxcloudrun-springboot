@@ -14,8 +14,10 @@ spring:
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
+  type-aliases-package: com.tencent.wxcloudrun.model
 
 wx:
   token: ${token}
   encodingAesKey: ${encodingAesKey}
   appId: ${appId}
+  appSecret: ${appSecret}

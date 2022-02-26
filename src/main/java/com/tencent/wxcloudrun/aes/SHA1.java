@@ -9,13 +9,16 @@
 package com.tencent.wxcloudrun.aes;
 
 import cn.hutool.crypto.digest.DigestUtil;
+import com.tencent.wxcloudrun.exception.AesException;
 import java.util.Arrays;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * SHA1 class
  *
  * 计算公众平台的消息签名接口.
  */
+@Slf4j
 class SHA1 {
 
 	/**
@@ -25,7 +28,7 @@ class SHA1 {
 	 * @param nonce 随机字符串
 	 * @param encrypt 密文
 	 * @return 安全签名
-	 * @throws AesException 
+	 * @throws AesException
 	 */
 	public static String getSHA1(String token, String timestamp, String nonce, String encrypt)
 			throws AesException {
@@ -39,7 +42,7 @@ class SHA1 {
 			}
 			return DigestUtil.sha1Hex(sb.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("e:", e);
 			throw new AesException(AesException.ComputeSignatureError);
 		}
 	}

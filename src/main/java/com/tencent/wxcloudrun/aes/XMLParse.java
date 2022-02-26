@@ -8,11 +8,13 @@
 
 package com.tencent.wxcloudrun.aes;
 
+import com.tencent.wxcloudrun.exception.AesException;
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -23,13 +25,14 @@ import org.xml.sax.InputSource;
  *
  * 提供提取消息格式中的密文及生成回复消息格式的接口.
  */
+@Slf4j
 class XMLParse {
 
 	/**
 	 * 提取出xml数据包中的加密消息
 	 * @param xmltext 待提取的xml字符串
 	 * @return 提取出的加密消息字符串
-	 * @throws AesException 
+	 * @throws AesException
 	 */
 	public static Object[] extract(String xmltext) throws AesException     {
 		Object[] result = new Object[3];
@@ -54,7 +57,7 @@ class XMLParse {
 			result[2] = nodelist2.item(0).getTextContent();
 			return result;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("e:", e);
 			throw new AesException(AesException.ParseXmlError);
 		}
 	}

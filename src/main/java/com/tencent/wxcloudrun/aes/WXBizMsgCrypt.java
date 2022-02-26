@@ -14,6 +14,7 @@
 package com.tencent.wxcloudrun.aes;
 
 import cn.hutool.core.codec.Base64;
+import com.tencent.wxcloudrun.exception.AesException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -43,7 +44,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Slf4j
 public class WXBizMsgCrypt {
-	static final Charset CHARSET = StandardCharsets.UTF_8;
+	public static final Charset CHARSET = StandardCharsets.UTF_8;
 	byte[] aesKey;
 	String token;
 	String appId;
@@ -90,7 +91,7 @@ public class WXBizMsgCrypt {
 	String getRandomStr() {
 		String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		Random random = new Random();
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 16; i++) {
 			int number = random.nextInt(base.length());
 			sb.append(base.charAt(number));
@@ -140,7 +141,7 @@ public class WXBizMsgCrypt {
 
 			return base64Encrypted;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("e:", e);
 			throw new AesException(AesException.EncryptAESError);
 		}
 	}
@@ -167,7 +168,7 @@ public class WXBizMsgCrypt {
 			// 解密
 			original = cipher.doFinal(encrypted);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("e:", e);
 			throw new AesException(AesException.DecryptAESError);
 		}
 
@@ -185,7 +186,7 @@ public class WXBizMsgCrypt {
 			from_appid = new String(Arrays.copyOfRange(bytes, 20 + xmlLength, bytes.length),
 					CHARSET);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("e:", e);
 			throw new AesException(AesException.IllegalBuffer);
 		}
 
@@ -217,7 +218,7 @@ public class WXBizMsgCrypt {
 		String encrypt = encrypt(getRandomStr(), replyMsg);
 
 		// 生成安全签名
-		if (timeStamp == "") {
+		if (StringUtils.isBlank(timeStamp)) {
 			timeStamp = Long.toString(System.currentTimeMillis());
 		}
 

@@ -1,6 +1,8 @@
-package com.tencent.wxcloudrun.aes;
+package com.tencent.wxcloudrun.exception;
 
-@SuppressWarnings("serial")
+import lombok.Getter;
+
+@Getter
 public class AesException extends Exception {
 
 	public final static int OK = 0;
@@ -16,7 +18,7 @@ public class AesException extends Exception {
 	//public final static int DecodeBase64Error = -40010;
 	//public final static int GenReturnXmlError = -40011;
 
-	private int code;
+	private final int code;
 
 	private static String getMessage(int code) {
 		switch (code) {
@@ -47,11 +49,7 @@ public class AesException extends Exception {
 		}
 	}
 
-	public int getCode() {
-		return code;
-	}
-
-	AesException(int code) {
+	public AesException(int code) {
 		super(getMessage(code));
 		this.code = code;
 	}

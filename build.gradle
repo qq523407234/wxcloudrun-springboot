@@ -59,6 +59,7 @@ List driver = [
 List hutool = [
         'cn.hutool:hutool-core:latest.release',
         'cn.hutool:hutool-crypto:latest.release',
+        'cn.hutool:hutool-http:latest.release',
 ]
 
 dependencies {
