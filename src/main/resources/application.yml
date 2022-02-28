@@ -21,3 +21,6 @@ wx:
   encodingAesKey: ${encodingAesKey}
   appId: ${appId}
   appSecret: ${appSecret}
+logging:
+  level:
+    com.tencent.wxcloudrun.dao: debug

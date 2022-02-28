@@ -92,6 +92,7 @@ public class TokenUtilService {
         if (StringUtils.isBlank(rs)) {
             return false;
         }
+        log.info("返回报文:{}", rs);
         JSONObject rsJson = JSON.parseObject(rs);
         String tmpToken = rsJson.getString("access_token");
         if (StringUtils.isNotBlank(tmpToken)) {

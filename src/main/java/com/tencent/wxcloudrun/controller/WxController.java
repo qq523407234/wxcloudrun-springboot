@@ -3,6 +3,7 @@ package com.tencent.wxcloudrun.controller;
 import cn.hutool.core.io.IoUtil;
 import com.tencent.wxcloudrun.aes.WXBizMsgCrypt;
 import com.tencent.wxcloudrun.service.msg.MsgService;
+import com.tencent.wxcloudrun.service.token.TokenUtilService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,9 @@ public class WxController {
     @Resource
     private MsgService msgService;
 
+    @Resource
+    private TokenUtilService tokenUtilService;
+
     @GetMapping("/verifyUrl")
     public String verifyUrl(@RequestParam("signature") String signature, @RequestParam("timestamp") String timestamp, @RequestParam("nonce") String nonce, @RequestParam("echostr") String echostr)
             throws Exception {
@@ -42,6 +46,15 @@ public class WxController {
     public String verifyUrl(HttpServletRequest request) throws Exception {
         String xmlMsg = IoUtil.readUtf8(request.getInputStream());
         return msgService.getMsgAndReturn(xmlMsg);
+    }
+
+    @GetMapping("/getToken")
+    public String getToken(@RequestParam("pw") String pw) {
+        String token = "index";
+        if ("simplecheck".equals(pw)) {
+            token = tokenUtilService.getToken();
+        }
+        return token;
     }
 
 }
