@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.3'
+    id 'org.springframework.boot' version '2.6.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "io.freefair.lombok" version "6.4.1"
     id "com.github.ben-manes.versions" version "0.42.0"
@@ -56,14 +56,20 @@ List driver = [
         'mysql:mysql-connector-java:8.0.28'
 ]
 
+def hutool_version = '5.7.21'
 List hutool = [
-        'cn.hutool:hutool-core:latest.release',
-        'cn.hutool:hutool-crypto:latest.release',
-        'cn.hutool:hutool-http:latest.release',
+        "cn.hutool:hutool-core:$hutool_version",
+        "cn.hutool:hutool-crypto:$hutool_version",
+        "cn.hutool:hutool-http:$hutool_version",
+        "cn.hutool:hutool-extra:$hutool_version",
+]
+
+List mail = [
+        'com.sun.mail:javax.mail:1.6.2'
 ]
 
 dependencies {
-    implementation spring,alibaba,google,apache,mybatis,hutool
+    implementation spring,alibaba,google,apache,mybatis,hutool,mail
 
     runtimeOnly driver
 

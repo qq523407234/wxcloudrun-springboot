@@ -22,6 +22,7 @@ FROM alpine:3.13
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \
     && apk add --update --no-cache openjdk8-jre-base tzdata \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone \
     && apk del tzdata \
     && rm -f /var/cache/apk/*
 

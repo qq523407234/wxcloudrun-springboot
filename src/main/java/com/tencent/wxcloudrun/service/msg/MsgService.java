@@ -2,6 +2,7 @@ package com.tencent.wxcloudrun.service.msg;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.XmlUtil;
+import cn.hutool.extra.mail.MailUtil;
 import com.tencent.wxcloudrun.dto.BaseMessage;
 import com.tencent.wxcloudrun.dto.TextMessage;
 import java.util.Map;
@@ -11,7 +12,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
- * TODO....
+ * 消息处理
  *
  * @date 2022/2/26
  * @author yaodongliu
@@ -36,12 +37,19 @@ public class MsgService {
         if ("text".equals(msgMap.get("MsgType"))) {
             TextMessage fromMsg = BeanUtil.toBean(msgMap, TextMessage.class);
 
+            String content = "正常返回消息";
+
+            if (StringUtils.startsWith(fromMsg.getContent(), "留言：")) {
+                MailUtil.send("yaodongliu@88.com", "微信留言", fromMsg.getContent(), false);
+                content = "留言已发送邮箱";
+            }
+
             TextMessage rsMsg = new TextMessage();
             rsMsg.setToUserName(fromMsg.getFromUserName());
             rsMsg.setFromUserName(fromMsg.getToUserName());
             rsMsg.setCreateTime(System.currentTimeMillis());
             rsMsg.setMsgType("text");
-            rsMsg.setContent("这是返回消息");
+            rsMsg.setContent(content);
             return getMsgByBean(rsMsg);
         } else {
             return StringUtils.EMPTY;
