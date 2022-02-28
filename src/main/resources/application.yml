@@ -11,6 +11,8 @@ spring:
     view:
       suffix: .html
       prefix: /
+  mail:
+    host:
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
@@ -24,3 +26,8 @@ wx:
 logging:
   level:
     com.tencent.wxcloudrun.dao: debug
+
+
+hutool:
+  mail:
+    pass: ${MAIL_PASSWORD}
