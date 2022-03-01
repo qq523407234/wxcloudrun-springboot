@@ -1,7 +1,7 @@
 # wxcloudrun-springboot
 [![GitHub license](https://img.shields.io/github/license/WeixinCloud/wxcloudrun-express)](https://github.com/WeixinCloud/wxcloudrun-express)
-![GitHub package.json dependency version (prod)](https://img.shields.io/badge/maven-3.6.0-green)
-![GitHub package.json dependency version (prod)](https://img.shields.io/badge/jdk-11-green)
+![gradle版本](https://img.shields.io/badge/gradle-7.3.3-green)
+![jdk版本](https://img.shields.io/badge/jdk-11-green)
 
 微信云托管 Java Springboot 框架模版，实现简单的计数器读写接口，使用云托管 MySQL 读写、记录计数值。
 
